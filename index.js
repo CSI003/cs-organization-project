@@ -14,127 +14,147 @@ $('.js-menu').on('click', function() {
 });
 
 //SUNRISE BACKGROUND
-var canvas, c, w, h,
-   twoPI = Math.PI * 2,
-   mX, mY,
-   resize = true,
-   mousemove = true,
-   per = { x: 0, y: 0 },
-   mtn, trackmouse = false;
+var mouse = {x: 0, y: 0};
+var myWidth = 0, myHeight = 0;
+var mouseIsDown = false;
+var mouseIsDownDivision = false;
 
-window.onload = function(){
- canvas = document.createElement('canvas')
-   w = canvas.width = window.innerWidth - 40;
- h = canvas.height = window.innerHeight - 40;
- c = canvas.getContext('2d');
- document.body.appendChild(canvas);
+document.addEventListener('mousemove', function(e){ 
+    mouse.x = e.clientX || e.pageX; 
+    mouse.y = e.clientY || e.pageY 
+      updateDimensions();
 
- !resize || window.addEventListener('resize', function(e){ w = canvas.width = window.innerWidth - 40; h = canvas.height = window.innerHeight - 40; });
- !mousemove || canvas.addEventListener('mousemove', function(e){
-   trackmouse = true;
-   mX = e.pageX-20; mY = e.pageY-20;
-   per = { x: mX, y: mY };
- });
+    //if(mouseIsDown) {
+       document.getElementById("sun").style.background = '-webkit-radial-gradient(' + mouse.x + 'px ' + mouse.y + 'px, circle, rgba(242,248,247,1) 0%,rgba(249,249,28,1) 3%,rgba(247,214,46,1) 8%, rgba(248,200,95,1) 12%,rgba(201,165,132,1) 30%,rgba(115,130,133,1) 51%,rgba(46,97,122,1) 85%,rgba(24,75,106,1) 100%)';
+      document.getElementById("sun").style.background = '-moz-radial-gradient(' + mouse.x + 'px ' + mouse.y + 'px, circle, rgba(242,248,247,1) 0%,rgba(249,249,28,1) 3%,rgba(247,214,46,1) 8%, rgba(248,200,95,1) 12%,rgba(201,165,132,1) 30%,rgba(115,130,133,1) 51%,rgba(46,97,122,1) 85%,rgba(24,75,106,1) 100%)';
+      document.getElementById("sun").style.background = '-ms-radial-gradient(' + mouse.x + 'px ' + mouse.y + 'px, circle, rgba(242,248,247,1) 0%,rgba(249,249,28,1) 3%,rgba(247,214,46,1) 8%, rgba(248,200,95,1) 12%,rgba(201,165,132,1) 30%,rgba(115,130,133,1) 51%,rgba(46,97,122,1) 85%,rgba(24,75,106,1) 100%)';
 
- mX = w/2;
- mY = w/2;
+      document.getElementById("sunDay").style.background = '-webkit-radial-gradient(' + mouse.x + 'px ' + mouse.y + 'px, circle, rgba(252,255,251,0.9) 0%,rgba(253,250,219,0.4) 30%,rgba(226,219,197,0.01) 70%, rgba(226,219,197,0.0) 70%,rgba(201,165,132,0) 100%)';
+      document.getElementById("sunDay").style.background = '-moz-radial-gradient(' + mouse.x + 'px ' + mouse.y + 'px, circle, rgba(252,255,251,0.9) 0%,rgba(253,250,219,0.4) 30%,rgba(226,219,197,0.01) 70%, rgba(226,219,197,0.0) 70%,rgba(201,165,132,0) 100%)';
+      document.getElementById("sunDay").style.background = '-ms-radial-gradient(' + mouse.x + 'px ' + mouse.y + 'px, circle, rgba(252,255,251,0.9) 0%,rgba(253,250,219,0.4) 30%,rgba(226,219,197,0.01) 70%, rgba(226,219,197,0.0) 70%,rgba(201,165,132,0) 100%)';
 
- per = { x: w/2, y: h/2, step: 1 }
-   mtn = new Mountains(300,"10");
- window.setInterval(animate,17);
-}
+      document.getElementById("sunSet").style.background = '-webkit-radial-gradient(' + mouse.x + 'px ' + mouse.y + 'px, circle, rgba(254,255,255,0.8) 5%,rgba(236,255,0,1) 10%,rgba(253,50,41,1) 25%, rgba(243,0,0,1) 40%,rgba(93,0,0,1) 100%)';
+      document.getElementById("sunSet").style.background = '-moz-radial-gradient(' + mouse.x + 'px ' + mouse.y + 'px, circle, rgba(254,255,255,0.8) 5%,rgba(236,255,0,1) 10%,rgba(253,50,41,1) 25%, rgba(243,0,0,1) 40%,rgba(93,0,0,1) 100%)';
+      document.getElementById("sunSet").style.background = '-ms-radial-gradient(' + mouse.x + 'px ' + mouse.y + 'px, circle, rgba(254,255,255,0.8) 5%,rgba(236,255,0,1) 10%,rgba(253,50,41,1) 25%, rgba(243,0,0,1) 40%,rgba(93,0,0,1) 100%)';
 
- function newGradient(gradient){
-   var grad;
-   switch(gradient.type){
-     case "radial":
-       grad = c.createRadialGradient(gradient.x1, gradient.y1, gradient.r1, gradient.x1, gradient.y1, gradient.r2);
-       break;
-     case "linear":
-       grad = c.createLinearGradient(gradient.x1, gradient.y1, gradient.x2, gradient.y2);
-       break;
-   }
-  
-   for(var i = 0; i < gradient.stops.length; i++){
-     grad.addColorStop(gradient.stops[i].s, gradient.stops[i].c);
-   }
-  
-   return grad;
- }
+      document.getElementById("waterReflectionContainer").style.perspectiveOrigin = (mouse.x/myWidth*100).toString() + "% -15%";
+      document.getElementById("waterReflectionMiddle").style.left = (mouse.x-myWidth-(myWidth*.03)).toString() + "px";
 
-function animate(){
- if(!trackmouse){
-   per.x = mX = w/2 + Math.round(Math.cos(per.step)*w/2);
-   per.y = mY = h/2 + Math.round(Math.sin(per.step)*h/2);
-   per.step += 0.03;
-   if(per.step > twoPI)
-     per.step = 0;
- }
+      var bodyWidth = document.getElementsByTagName("body")[0].clientWidth;
 
- c.save();
- c.globalCompositeOperation = "source-over";
- c.fillStyle = newGradient(
-   {
-     type: "radial",
-     x1: mX,
-     y1: mY,
-     r1: 0,
-     r2: w,
-     stops: [
-       { s: 0, c: "rgba("+ (h-mY) +","+ (h-mY) +","+ (h-mY) +",0.5)" },
-       { s: 0.05, c: "rgba("+ (h-mY) +","+ (h-mY-128) +",128,0.5)" },
-       { s: 1, c: "rgba(0,"+ (h-mY-128) +","+ (h-mY) +",0.5)" }
+      document.getElementById("sun").style.width = (bodyWidth);
+      document.getElementById("sun").style.left = "0px";
+      document.getElementById("sunDay").style.width = (bodyWidth);
+      document.getElementById("sunDay").style.left = "0px";
       
-     ]
-   }
- );
- c.fillRect(0,0,w,h);
- mtn.draw();
+      var sky = document.getElementById("sun");
+      var water = document.getElementById("water");
+      var waterHeight = water.clientHeight;
+      var skyHeight = sky.clientHeight;
+      var skyRatio = mouse.y / skyHeight;
+      var waterRatio = waterHeight / myHeight;
+      document.getElementById("darknessOverlay").style.opacity = Math.min((mouse.y-(myHeight/2)) / (myHeight/2), 1);
+      document.getElementById("darknessOverlaySky").style.opacity = Math.min((mouse.y-(myHeight*7/10)) / (myHeight-(myHeight*7/10)), 1);
+      document.getElementById("moon").style.opacity = Math.min((mouse.y-(myHeight*9/10)) / (myHeight-(myHeight*9/10)), 0.65);
+      document.getElementById("horizonNight").style.opacity = (mouse.y-(myHeight*4/5)) / (myHeight-(myHeight*4/5));
+
+      document.getElementById("starsContainer").style.opacity = (mouse.y/myHeight-0.6);
+
+      document.getElementById("waterDistance").style.opacity = (mouse.y/myHeight+0.6);
+      document.getElementById("sunDay").style.opacity = (1-mouse.y/myHeight);
+      document.getElementById("sky").style.opacity = Math.min((1-mouse.y/myHeight), 0.99);
+
+      document.getElementById("sunSet").style.opacity = (mouse.y/myHeight-0.2);
+
+
+
+      if(mouse.y > 0) {
+        var clouds = document.getElementsByClassName("cloud");
+        for(var i=0; i<clouds.length; i++) {
+          clouds[i].style.left = Math.min(myWidth*(Math.pow(mouse.y,2)/Math.pow(myHeight/2,2)) * -1, 0);
+        }
+      //}
+
+      var stars = document.getElementsByClassName('star');
+      for(var i=0; i<stars.length; i++) {
+        stars[i].style.opacity = (mouse.y/myHeight-0.6);
+      }
+
+
+      if(mouse.y > myHeight/2) {
+        document.getElementById("sun").style.opacity = Math.min((myHeight-mouse.y) / (myHeight/2) + 0.2, 0.5);
+        document.getElementById("horizon").style.opacity = (myHeight-mouse.y) / (myHeight/2) + 0.2;
+
+        document.getElementById("waterReflectionMiddle").style.opacity = (myHeight-mouse.y) / (myHeight/2) - 0.1;
+      } else {
+        document.getElementById("horizon").style.opacity = Math.min(mouse.y / (myHeight/2), 0.99);
+
+        document.getElementById("sun").style.opacity = Math.min(mouse.y / (myHeight/2), 0.5);
+        document.getElementById("waterReflectionMiddle").style.opacity = mouse.y / (myHeight/2) - 0.1; 
+      }
+
+    } else if (mouseIsDownDivision) {
+      var sunElement = document.getElementById("sun");
+      var water = document.getElementById("water");
+      var division = document.getElementById("division");
+      sunElement.style.height = (mouse.y).toString() + "px";
+      document.getElementById("sunDay").style.height = (mouse.y).toString() + "px";
+      division.style.top = (mouse.y).toString() + "px";
+      var waterHeight = myHeight-mouse.y;
+      water.style.height = waterHeight.toString() + "px";
+
+      document.getElementById("sun").style.height = (mouse.y).toString() + "px";
+      document.getElementById("sunDay").style.height = (mouse.y).toString() + "px";
+      document.getElementById("horizon").style.height = (mouse.y).toString() + "px";
+      document.getElementById("waterDistance").style.height = (myHeight-mouse.y).toString() + "px";
+      document.getElementById("oceanRippleContainer").style.height = (myHeight-mouse.y).toString() + "px";
+      document.getElementById("darknessOverlay").style.height = (myHeight-mouse.y).toString() + "px";
+    }
+
+
+}, false);
+
+function updateDimensions() {
+  if( typeof( window.innerWidth ) == 'number' ) {
+    //Non-IE
+    myWidth = window.innerWidth;
+    myHeight = window.innerHeight;
+  } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+
+    myWidth = document.documentElement.clientWidth;
+    myHeight = document.documentElement.clientHeight;
+  } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+
+    myWidth = document.body.clientWidth;
+    myHeight = document.body.clientHeight;
+  }
+  
 }
 
-function Mountains(peaks,seed){
- var points = [];
- this.init = function(){
-   var step = w / peaks,
-       y = 0;
-  
-   points.push({x: 0, y: y});
-   for(var i = 1; i <= peaks; i++){
-     y = y + (Math.random() * 20)-10;
-     points.push({x: i * step, y: y});
-   }
- };
- this.draw = function(){
-   c.save();
-   //c.fillStyle = "rgba(20,20,20,1)";
-   c.fillStyle = newGradient({type:"linear", x1: 0, y1: 0, x2: 0, y2: h, stops: [{s:1, c:"rgba(0,0,0,1)"},{s:0, c:"rgba(80,80,80,1)"}]});
-   c.beginPath();
-   c.moveTo(points[0].x, h/2-points[0].y);
-   for(var p = 1; p < points.length; p++){
-     c.lineTo(points[p].x, h/2 - points[p].y);
-   }
-   c.lineTo(w,h);
-   c.lineTo(0,h);
-   c.closePath();
-   c.fill();
-   c.restore();
-  
-   c.globalCompositeOperation = "lighter";                        
-   c.fillStyle = "rgba("+(h-mY)+","+(h-mY)+","+(h-mY)+",0.03)";
-   for(var p = 0; p < points.length-1; p++){
-     var va1 = Math.atan2(h/2-points[p].y - per.y, points[p].x - per.x),
-         va2 = Math.atan2(h/2-points[p+1].y - per.y, points[p+1].x - per.x);
-    
-     c.beginPath();
-     c.moveTo(points[p  ].x, h/2-points[p].y);
-     c.lineTo(points[p+1].x, h/2-points[p+1].y);
-     c.lineTo(points[p+1].x + Math.cos(va2)*w, h/2-points[p+1].y + Math.sin(va2)*w);
-     c.lineTo(points[p  ].x + Math.cos(va1)*w, h/2-points[p].y + Math.sin(va1)*w);
-     c.closePath();
-     c.fill();
-   }
- };
+function startMove() {
+  mouseIsDown = true;
+}
 
- this.init();
+function stopMove() {
+  mouseIsDown = false;
+  mouseIsDownDivision = false;
+        var sky = document.getElementById("sun");
+}
 
+function startDraggingDivision() {
+
+  mouseIsDownDivision = true;
+}
+
+function windowResize() {
+  updateDimensions();
+  var skyHeight = document.getElementById("horizon").clientHeight;
+
+  
+
+
+  // update to new sky height
+  skyHeight = document.getElementById("sun").clientHeight;
+  document.getElementById("waterDistance").style.height = myHeight - skyHeight;
+   document.getElementById("division").style.top = skyHeight;
 }
