@@ -106,18 +106,83 @@ nav {
 /* CS PORtFOLIO BUTTON */
 
 /* SUNRISE BACKGROUND */
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #111 ;
+body{
+	background-color: #7D7E75;
 }
 
+img.tree{
+	display: block;
+	margin: -15px;
+	-webkit-animation: sun 25s ease infinite;
+	animation: sun 25s ease infinite;
+	background-size: 100%;
+	svg{
+		width: 100%;
+		height: 100%;
+	}
+}
 
-#sunrise {
-  display:block ;
-  position: absolute;
-  left: 0 ;
-  bottom: 0 ;
-  border-top: 1px solid #000 ;
+.star {
+	display:block;
+	z-index:500;
+	width:4px;
+	height:4px;
+	border-radius:50%;
+	background:#FFF;
+	top:-15px;
+	left: 500px;
+	position:absolute;
+	opacity:1;
+	animation: shoot 25s ease infinite;
+	-webkit-animation: shoot 25s ease infinite;
+}
+
+@-webkit-keyframes sun {
+	0%, 100%{
+		background-image:url(http://www.chadams.me/assets/images/night.svg);
+	}
+	25%{
+		background-image:url(http://www.chadams.me/assets/images/morning.svg);
+	}
+	50%{
+		background-image:url(http://www.chadams.me/assets/images/day.svg);
+	}
+	75%{
+		background-image:url(http://www.chadams.me/assets/images/morning.svg);
+	}
+}
+
+@-webkit-keyframes shoot{
+	2%{
+		top:-15px;
+		left: 500px;
+		opacity: 0;
+	}
+	2.75%{
+		opacity: 1;
+	}
+	5% {
+		top:200px;
+		left: 200px;
+		opacity: 0;
+	}
+	95%{
+		top:130px;
+		left: 650px;
+		opacity: 0;
+	}
+	95.5%{
+		opacity: 1;
+	}
+	97%{
+		top: 150px;
+		left:900px;
+		opacity: 0;
+	}
+	100%{
+		top:-15px;
+		left: 500px;
+		opacity: 0;
+	}
 }
 /* MERIT IMAGE */
