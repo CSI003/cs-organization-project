@@ -40,4 +40,8 @@ span{
 ::selection{
   background: black;
 }
-/*  */
+/* WEBSITE */
+a{
+  color: lime;
+  text-decoration: none;
+}
