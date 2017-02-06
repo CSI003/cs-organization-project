@@ -15,7 +15,7 @@ p:nth-child(5){
 }
 
 p:nth-child(6){
-  animation: type2 16s steps(60, end);
+  animation: type2 8s steps(60, end);
 }
 
 p a{
