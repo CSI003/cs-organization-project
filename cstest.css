@@ -10,8 +10,12 @@ p{
   animation: type 4s steps(60, end); 
 }
 
-p:nth-child(5, 6){
+p:nth-child(5){
   animation: type2 8s steps(60, end);
+}
+
+p:nth-child(6){
+  animation: type2 16s steps(60, end);
 }
 
 p a{
