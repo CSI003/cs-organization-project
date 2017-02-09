@@ -71,7 +71,7 @@ nav{
 	font-weight: 400;
 	font-family: Monaco;
 }
-
+/* the logo class is the word "MERIT" on the top of the blog website. the character in this class give it it's font, colour, weight, size, etc. */
 ul{
 	padding: 0;
 	margin: 0;
@@ -115,6 +115,7 @@ ul{
 	margin-top: -5px;
 	font-size: 1.4em;
 }
+/* these navigation classes help control the navigation bar and organize it so that it has a specific placement on the website. the hover class gives the buttons a unique effect when hovered over. */
 
 /* BLOG POSTS */
 
@@ -130,20 +131,20 @@ ul{
 	padding: 35px 30px;
 	box-shadow: 5px 5px 15px -1px rgba(0,0,0,0.3);
 }
-
+/* organizes the blog post cards on the blog. */
 .side-post{
 	background: #fff;
 	margin: 0 auto 1.5em auto;
 	width: 15em;
 	padding: 20px;
 }
-
+/* organizes the side posts on the blog */
 .blog-content{
 	font-size: 1em;
 	border-left: 5px solid #000;
 	padding-left: 15px;
 }
-
+/* controls how the content / words in the blog posts look */
 .side-content{
 	font-size: .9em;
 	margin-top: 8px;
